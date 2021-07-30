@@ -112,7 +112,7 @@ button {
 
     pointer-events: none;
 
-    transition: background-color 140ms ease, border-color 140ms ease, opacity 180ms ease;
+    transition: background-color 150ms ease, border-color 300ms ease, opacity 350ms ease;
 }
 
 .main-page-header {
@@ -569,7 +569,7 @@ main {
 }
 
 .dissipate-ripple.dissipate-ripple::before {
-    border-color: rgba(250, 225, 225, 0.45);
+    border-color: rgba(255, 255, 255, 0.6);
     opacity: 0;
 }
 
