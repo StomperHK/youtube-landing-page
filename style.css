@@ -804,15 +804,15 @@ main article h2 {
     align-items: center;
   }
   .mobile-safe-area button {
-    width: 47px;
-    height: 47px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background-color: transparent;
     color: var(--tertiary-content-color);
     transition: box-shadow 100ms linear;
   }
   .mobile-safe-area button::before {
-    transform: translate(-50%, -50%) scale(1.4);
+    transform: translate(-50%, -50%) scale(1.15);
   }
   .mobile-safe-area button:first-child {
     color: var(--content-color);
