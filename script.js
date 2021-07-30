@@ -1,6 +1,6 @@
 const pageHeaderEL = document.querySelector('.main-page-header')
 
-const someButtonsOfThePage = 
+const buttonsThatWillHaveARippleEffect = 
     document.querySelectorAll('.main-page-header button, .alternative-header-for-menu > button, .move-to-right, .move-to-left, .mobile-safe-area button')
 
 const searchBoxContainerEL = document.querySelector('.search-box-container')
@@ -326,14 +326,12 @@ function handleScrollEventOnWindow() {
 }
 
 
-someButtonsOfThePage.forEach(buttonEL => {
+buttonsThatWillHaveARippleEffect.forEach(buttonEL => {
     buttonEL.addEventListener('mousedown', createRipple)
-    buttonEL.addEventListener('focus', createRipple)
     buttonEL.addEventListener('touchstart', createRipple)
 
     buttonEL.addEventListener('mouseout', removeRippleIfElementContainsClass)
     buttonEL.addEventListener('mouseup', removeRipple)
-    buttonEL.addEventListener('blur', removeRipple)
     buttonEL.addEventListener('touchend', removeRipple)
 })
 
