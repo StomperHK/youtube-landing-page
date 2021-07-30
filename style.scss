@@ -925,8 +925,8 @@ main {
         }
 
         button {
-            width: 47px;
-            height: 47px;
+            width: 52px;
+            height: 52px;
 
             border-radius: 50%;
             background-color: transparent;
@@ -937,7 +937,7 @@ main {
         }
 
         button::before {
-            transform: translate(-50%, -50%) scale(1.4);
+            transform: translate(-50%, -50%) scale(1.15);
         }
 
         button:first-child {
