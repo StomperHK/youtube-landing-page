@@ -569,7 +569,7 @@ main {
 }
 
 .dissipate-ripple.dissipate-ripple::before {
-    border-color: rgba(252, 248, 248, 0.45);
+    border-color: rgba(250, 225, 225, 0.45);
     opacity: 0;
 }
 
@@ -1080,7 +1080,7 @@ main {
 }
 
 @media (pointer: coarse) {    // Breakpoint to change some elements apresentation to touch devices
-    button, absolute {
+    button, a {
         cursor: default;
     }
 
