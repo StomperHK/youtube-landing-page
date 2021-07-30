@@ -27,9 +27,9 @@
 
     --tooltip-color: rgba(94, 94, 94, 0.90);
 
-    --highlighted-button-color: rgba(255, 255, 255, 0.2);
+    --highlighted-button-color: rgba(255, 255, 255, 0.1);
 
-    --highlighted-video-color:  rgba(54, 53, 53, 0.35);
+    --highlighted-video-color:  rgba(255, 255, 255, 0.07);
     --highlighted-section-button: rgba(54, 53, 53, 0.5);
 
     --linear-gradient-to-left: linear-gradient(270deg,  transparent, var(--secondary-background-color) 20%);
@@ -70,7 +70,7 @@ body {
     font-weight: 500;
 
     position: absolute;
-    top: 130%;
+    top: 150%;
     left: 50%;
     transform: translateX(-50%);
 
@@ -81,6 +81,10 @@ body {
     opacity: 0;
 
     transition: opacity 100ms linear;
+}
+
+button {
+    cursor: pointer;
 }
 
 .main-page-header button,
@@ -95,19 +99,20 @@ body {
 .move-to-right::before, .move-to-left::before,
 .mobile-safe-area button::before {
     content: '';
+    border: 1px solid transparent;
     width: 100%;
     height: 100%;
 
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(1.10);
+    transform: translate(-50%, -50%) scale(1.40);
     
     border-radius: 50%;
 
     pointer-events: none;
 
-    transition: background-color 100ms ease, box-shadow 100ms ease, opacity 150ms ease;
+    transition: background-color 140ms ease, border-color 140ms ease, opacity 180ms ease;
 }
 
 .main-page-header {
@@ -131,18 +136,12 @@ body {
 
     button {
         padding: 2px;
-        
-        background-color: transparent;
-        cursor: pointer;
-
         position: relative;
+        background-color: transparent;
+        outline: none;
 
         span {
             @include tooltip-styles();
-        }
-
-        &:hover > span, &:focus > span {
-            opacity: 1;
         }
     }
 
@@ -150,7 +149,6 @@ body {
         height: 30px;
         width: 30px;
 
-        outline: none;
         border-radius: 50%;
 
         transition: box-shadow 100ms linear;
@@ -207,6 +205,7 @@ body {
         position: relative;
 
         input {
+            min-width: 0px;
             border: 2px solid var(--discernitive-color-2);
             border-right: none;
             padding: 0px 6px;
@@ -230,6 +229,7 @@ body {
         }
 
         button {
+            border: 2px solid var(--discernitive-color-2);
             color: var(--tertiary-content-color);
             background-color: var(--discernitive-color-2);
             outline: none;
@@ -239,7 +239,7 @@ body {
             }
 
             &:focus {
-                border: 2px solid rgb(79, 79, 138);
+                border-color: rgb(79, 79, 138);
                 color: var(--submit-button-hover-color);
             }
         }
@@ -319,8 +319,6 @@ body {
     button {
         width: 100%;
         background-color: transparent;
-        cursor: pointer;
-
         outline: none;
 
         &:hover, &:focus {
@@ -355,6 +353,7 @@ body {
 .user-keywords-container {
     border-top: 1px solid var(--hover-color);
     border-bottom: 1px solid var(--hover-color);
+    padding-right: 20px;
 
     position: fixed;
     top: 63px;
@@ -375,8 +374,6 @@ body {
         font-size: 15px;
         color: var(--content-color);
 
-        cursor: pointer;
-
         outline: none;
 
         border-radius: 20px;
@@ -384,9 +381,6 @@ body {
 
         transition: background-color 50ms linear;
         
-        &:hover, &:focus {
-            background-color: var(--discernitive-color-4);
-        }
     }
 
     button + button:not([class^="move-to"]) {
@@ -446,20 +440,14 @@ body {
 
         border-radius: 50%;
 
-        outline: none;
-
-        cursor: pointer;
-
         background-color: transparent;
+
+        outline: none;
 
         transition: box-shadow 100ms linear;
 
         span {
             @include tooltip-styles();
-        }
-
-        &:hover > span, &:focus > span {
-            opacity: 1;
         }
     }
 }
@@ -476,11 +464,8 @@ main {
     a {
         padding: 4px;
         border-radius: 4px;
+        outline: none;
         transition: background-color 100ms ease;
-
-        &:active, &:focus {
-            background-color: var(--highlighted-video-color);
-        }
     }
 
     article {
@@ -578,13 +563,13 @@ main {
     }
 }
 
-.create-ripple::before {
+.create-ripple.create-ripple::before {
     background-color: var(--highlighted-button-color);
     opacity: 1;
 }
 
-.dissipate-ripple::before {
-    box-shadow: 0px 0px 0px 1px rgba(252, 248, 248, 0.4);
+.dissipate-ripple.dissipate-ripple::before {
+    border-color: rgba(252, 248, 248, 0.45);
     opacity: 0;
 }
 
@@ -712,7 +697,7 @@ main {
 }
 
 
-@media screen and (min-width: 791.5px) {   // Breakpoint to expand more the hamburguer menu on biggers screens 
+@media screen and (min-width: 791.5px) {   // Breakpoint to expand plus the hamburguer menu on biggers screens 
     .grid-content-wrapper {
         display: grid;
     }
@@ -847,6 +832,7 @@ main {
 @media screen and (max-width: 784.5px) {    // Breakpoint to reduce the page header on smallers screens
     .main-page-header {
         gap: 16px;
+        min-height: 63px;
 
         & > div:nth-child(1) {
             gap: 16px;
@@ -880,8 +866,35 @@ main {
     }
 }
 
+@media screen and (min-width: 449.5px) {    /* Breakpoint to add dinamics pseudo-classes for bigger screens
+    /* Dinamics pseudo-classes */
+
+    .main-page-header button, .user-keywords-container button {
+        &:focus::before {
+            background-color: var(--highlighted-button-color);
+        }
+
+        &:hover > span, &:focus > span {
+            opacity: 1;
+        }
+    }
+
+    .user-keywords-container button:not([class*="move-to"]) {
+        &:focus, &:hover {
+            background-color: var(--discernitive-color-4);
+        }
+    }
+
+    main {
+        a:active, a:focus {
+            background-color: var(--highlighted-video-color);
+        }
+    }
+}
+
 @media screen and (max-width: 449.5px), screen and (max-height: 449.5px) {   // Breakpoint to addapt contents on smallers screens
     .main-page-header {
+        min-height: 51px;
         padding: 8px 14px;
     }
 
@@ -924,7 +937,7 @@ main {
         }
 
         button::before {
-            transform: translate(-50%, -50%) scale(1.25);
+            transform: translate(-50%, -50%) scale(1.4);
         }
 
         button:first-child {
@@ -932,14 +945,19 @@ main {
         }
 
         svg {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             fill: currentColor;
         }
 
         p {
             color: currentColor;
             font-size: 10.5px;
+
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
         }
     }
 
@@ -966,6 +984,24 @@ main {
 
         a {
             border-radius: 0px;
+        }
+    }
+
+    /* Dinamics pseudo-classes */
+
+    .user-keywords-container {
+        overflow: auto;
+
+        button:not([class*="move-to"]) {
+            &:active {
+                background-color: var(--discernitive-color-4);
+            }
+        }
+    }
+
+    main {
+        a:active {
+            background-color: var(--highlighted-video-color);
         }
     }
 }
@@ -1017,16 +1053,56 @@ main {
     }
 }
 
+@media (pointer: fine) {    // Breakpoint to add dinamics pseudo-classes for devices with mouse
+    /* Dinamics pseudo-classes */
+
+    .main-page-header button, .user-keywords-container button {
+        &:focus::before {
+            background-color: var(--highlighted-button-color);
+        }
+        
+        &:hover > span, &:focus > span {
+            opacity: 1;
+        }
+    }
+
+    .user-keywords-container button:not([class*="move-to"]) {
+        &:focus, &:hover {
+            background-color: var(--discernitive-color-4);
+        }
+    }
+
+    main {
+        a:active, a:focus {
+            background-color: var(--highlighted-video-color);
+        }
+    }
+}
+
 @media (pointer: coarse) {    // Breakpoint to change some elements apresentation to touch devices
-    * {
-        cursor: auto !important;
+    button, absolute {
+        cursor: default;
     }
 
     .move-to-left-wrapper, .move-to-right-wrapper {
         display: none;
     }
 
+    /* Dinamics pseudo-classes */
+
     .user-keywords-container {
         overflow: auto;
+
+        button:not([class*="move-to"]) {
+            &:active {
+                background-color: var(--discernitive-color-4);
+            }
+        }
+    }
+
+    main {
+        a:active {
+            background-color: var(--highlighted-video-color);
+        }
     }
 }
