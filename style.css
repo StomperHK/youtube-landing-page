@@ -454,7 +454,7 @@ main article h2 {
 }
 
 .dissipate-ripple.dissipate-ripple::before {
-  border-color: rgba(252, 248, 248, 0.45);
+  border-color: rgba(250, 225, 225, 0.45);
   opacity: 0;
 }
 
@@ -923,7 +923,7 @@ main article h2 {
   }
 }
 @media (pointer: coarse) {
-  button, absolute {
+  button, a {
     cursor: default;
   }
 
