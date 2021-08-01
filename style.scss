@@ -88,7 +88,7 @@ button {
 
     pointer-events: none;
 
-    transition: background-color 150ms ease, border-color 300ms ease, opacity 350ms ease;
+    transition: background-color 200ms ease, border-color 300ms ease, opacity 350ms ease;
 }
 
 @mixin tooltip-styles() {
