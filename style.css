@@ -775,7 +775,7 @@ main article h2 {
     background-color: var(--highlighted-video-color);
   }
 }
-@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) and (max-width: 650px) {
+@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) {
   .main-page-header {
     min-height: 51px;
     padding: 8px 14px;
@@ -899,7 +899,7 @@ main article h2 {
     padding: 0px 10px;
   }
 }
-@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 650px) {
+@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 800px) {
   main {
     padding-left: 8px;
     padding-right: 8px;
