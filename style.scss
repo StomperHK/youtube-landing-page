@@ -890,7 +890,7 @@ main {
     }
 }
 
-@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) and (max-width: 650px) {   // Breakpoint to addapt contents on smallers screens
+@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) {   // Breakpoint to addapt contents on smallers screens
     .main-page-header {
         min-height: 51px;
         padding: 8px 14px;
@@ -1046,7 +1046,7 @@ main {
     }
 }
 
-@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 650px)  {   // Breakpoint to compact the video cards
+@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 800px)  {   // Breakpoint to compact the video cards
     main {
         padding-left: 8px;
         padding-right: 8px;
