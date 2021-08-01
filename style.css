@@ -74,7 +74,7 @@ button {
   transform: translate(-50%, -50%);
   border-radius: 50%;
   pointer-events: none;
-  transition: background-color 150ms ease, border-color 300ms ease, opacity 350ms ease;
+  transition: background-color 200ms ease, border-color 300ms ease, opacity 350ms ease;
 }
 
 .main-page-header {
