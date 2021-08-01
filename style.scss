@@ -40,6 +40,10 @@ body {
     background-color: var(--main-background-color);
 }
 
+button {
+    cursor: pointer;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -57,6 +61,34 @@ body {
     &:active {
         background-color: rgb(97, 97, 97);
     }
+}
+
+.main-page-header button,
+.alternative-header-for-menu > button,
+.move-to-right, .move-to-left,
+.mobile-safe-area button {
+    position: relative;
+}
+
+.main-page-header button::before, 
+.alternative-header-for-menu > button::before,
+.move-to-right::before, .move-to-left::before,
+.mobile-safe-area button::before {
+    content: '';
+    border: 0.8px solid transparent;
+    width: calc(100% + 9px);
+    height: calc(100% + 9px);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    transition: background-color 150ms ease, border-color 300ms ease, opacity 350ms ease;
 }
 
 @mixin tooltip-styles() {
@@ -83,38 +115,6 @@ body {
     transition: opacity 100ms linear;
 }
 
-button {
-    cursor: pointer;
-}
-
-.main-page-header button,
-.alternative-header-for-menu > button,
-.move-to-right, .move-to-left,
-.mobile-safe-area button {
-    position: relative;
-}
-
-.main-page-header button::before, 
-.alternative-header-for-menu > button::before,
-.move-to-right::before, .move-to-left::before,
-.mobile-safe-area button::before {
-    content: '';
-    border: 1px solid transparent;
-    width: 100%;
-    height: 100%;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1.40);
-    
-    border-radius: 50%;
-
-    pointer-events: none;
-
-    transition: background-color 150ms ease, border-color 300ms ease, opacity 350ms ease;
-}
-
 .main-page-header {
     display: flex;
     flex-direction: row;
@@ -131,8 +131,6 @@ button {
     z-index: 2;
 
     background-color: var(--secondary-background-color);
-
-    transition: transform 200ms linear;
 
     button {
         padding: 2px;
@@ -363,8 +361,6 @@ button {
 
     background-color: var(--secondary-background-color);
 
-    transition: transform 200ms linear;
-
     button:not([class*="move-to"]) {
         border: 1px solid var(--discernitive-color-3);
         padding: 6px 12px;
@@ -450,6 +446,11 @@ button {
             @include tooltip-styles();
         }
     }
+
+    .move-to-left::before, .move-to-right::before {
+        width: calc(100% + 5px);
+        height: calc(100% + 5px);
+    } 
 }
 
 main {
@@ -564,12 +565,13 @@ main {
 }
 
 .create-ripple.create-ripple::before {
+    border-width: 0px;
     background-color: var(--highlighted-button-color);
     opacity: 1;
 }
 
 .dissipate-ripple.dissipate-ripple::before {
-    border-color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.57);
     opacity: 0;
 }
 
@@ -595,10 +597,6 @@ main {
     border-color: var(--content-color);
     background-color: var(--content-color);
     color: var(--main-background-color)
-}
-
-.transform-51-pixels {
-    transform: translateY(-51px);
 }
 
 .transform-102-pixels {
@@ -892,15 +890,34 @@ main {
     }
 }
 
-@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) {   // Breakpoint to addapt contents on smallers screens
+@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) and (max-width: 650px) {   // Breakpoint to addapt contents on smallers screens
     .main-page-header {
         min-height: 51px;
         padding: 8px 14px;
+
+        & > div, & > nav {
+            gap: 14px;
+        }
+    }
+
+    .main-page-header button::before, 
+    .alternative-header-for-menu > button::before {
+        width: calc(100% + 15px);
+        height: calc(100% + 15px);
     }
 
     .hamburguer-button, .alternative-microfone, .main-page-header > nav > button:nth-child(3),
     .main-page-header > nav > button:nth-child(4) {
         display: none !important;
+    }
+
+    .user-keywords-container-wrapper {
+        width: 100%;
+    
+        position: fixed;
+        top: 0px;
+    
+        transition: transform 250ms ease;
     }
 
     .mobile-safe-area {
@@ -937,7 +954,9 @@ main {
         }
 
         button::before {
-            transform: translate(-50%, -50%) scale(1.15);
+            width: calc(100% + 24px);
+            height: calc(100% + 24px);
+            transform: translate(-50%, -50%);
         }
 
         button:first-child {
@@ -979,8 +998,8 @@ main {
 
     main {
         grid-template-columns: 1fr;
-        padding-top: 112px;
-        padding-bottom: 50px;
+        padding-top: 106px;
+        padding-bottom: 55px;
 
         a {
             border-radius: 0px;
@@ -990,7 +1009,9 @@ main {
     /* Dinamics pseudo-classes */
 
     .user-keywords-container {
-        overflow: auto;
+        .keywords-wrapper {
+            padding: 6px 18px;
+        }
 
         button:not([class*="move-to"]) {
             &:active {
@@ -1025,11 +1046,15 @@ main {
     }
 }
 
-@media screen and (max-height: 449.5px) {   // Breakpoint to compact the video cards
+@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 650px)  {   // Breakpoint to compact the video cards
     main {
         padding-left: 8px;
         padding-right: 8px;
         row-gap: 6px;
+
+        a {
+            padding: 4px;
+        }
 
         article {
             display: grid;
@@ -1052,6 +1077,13 @@ main {
         }
     }
 }
+
+@media screen and (max-width: 310px) {
+    .mobile-safe-area {
+        padding: 0px 8px;
+    }
+}
+    
 
 @media (pointer: fine) {    // Breakpoint to add dinamics pseudo-classes for devices with mouse
     /* Dinamics pseudo-classes */
