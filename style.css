@@ -32,6 +32,10 @@ body {
   background-color: var(--main-background-color);
 }
 
+button {
+  cursor: pointer;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -49,10 +53,6 @@ body {
   background-color: #616161;
 }
 
-button {
-  cursor: pointer;
-}
-
 .main-page-header button,
 .alternative-header-for-menu > button,
 .move-to-right, .move-to-left,
@@ -65,13 +65,13 @@ button {
 .move-to-right::before, .move-to-left::before,
 .mobile-safe-area button::before {
   content: "";
-  border: 1px solid transparent;
-  width: 100%;
-  height: 100%;
+  border: 0.8px solid transparent;
+  width: calc(100% + 9px);
+  height: calc(100% + 9px);
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1.4);
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   pointer-events: none;
   transition: background-color 150ms ease, border-color 300ms ease, opacity 350ms ease;
@@ -90,7 +90,6 @@ button {
   right: 0px;
   z-index: 2;
   background-color: var(--secondary-background-color);
-  transition: transform 200ms linear;
 }
 .main-page-header button {
   padding: 2px;
@@ -286,7 +285,6 @@ button {
   right: 0px;
   z-index: 1;
   background-color: var(--secondary-background-color);
-  transition: transform 200ms linear;
 }
 .user-keywords-container button:not([class*=move-to]) {
   border: 1px solid var(--discernitive-color-3);
@@ -361,6 +359,10 @@ button {
   pointer-events: none;
   opacity: 0;
   transition: opacity 100ms linear;
+}
+.user-keywords-container .move-to-left::before, .user-keywords-container .move-to-right::before {
+  width: calc(100% + 5px);
+  height: calc(100% + 5px);
 }
 
 main {
@@ -449,12 +451,13 @@ main article h2 {
   }
 }
 .create-ripple.create-ripple::before {
+  border-width: 0px;
   background-color: var(--highlighted-button-color);
   opacity: 1;
 }
 
 .dissipate-ripple.dissipate-ripple::before {
-  border-color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.57);
   opacity: 0;
 }
 
@@ -480,10 +483,6 @@ main article h2 {
   border-color: var(--content-color);
   background-color: var(--content-color);
   color: var(--main-background-color);
-}
-
-.transform-51-pixels {
-  transform: translateY(-51px);
 }
 
 .transform-102-pixels {
@@ -776,15 +775,31 @@ main article h2 {
     background-color: var(--highlighted-video-color);
   }
 }
-@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) {
+@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) and (max-width: 650px) {
   .main-page-header {
     min-height: 51px;
     padding: 8px 14px;
+  }
+  .main-page-header > div, .main-page-header > nav {
+    gap: 14px;
+  }
+
+  .main-page-header button::before,
+.alternative-header-for-menu > button::before {
+    width: calc(100% + 15px);
+    height: calc(100% + 15px);
   }
 
   .hamburguer-button, .alternative-microfone, .main-page-header > nav > button:nth-child(3),
 .main-page-header > nav > button:nth-child(4) {
     display: none !important;
+  }
+
+  .user-keywords-container-wrapper {
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    transition: transform 250ms ease;
   }
 
   .mobile-safe-area {
@@ -812,7 +827,9 @@ main article h2 {
     transition: box-shadow 100ms linear;
   }
   .mobile-safe-area button::before {
-    transform: translate(-50%, -50%) scale(1.15);
+    width: calc(100% + 24px);
+    height: calc(100% + 24px);
+    transform: translate(-50%, -50%);
   }
   .mobile-safe-area button:first-child {
     color: var(--content-color);
@@ -849,16 +866,16 @@ main article h2 {
 
   main {
     grid-template-columns: 1fr;
-    padding-top: 112px;
-    padding-bottom: 50px;
+    padding-top: 106px;
+    padding-bottom: 55px;
   }
   main a {
     border-radius: 0px;
   }
 
   /* Dinamics pseudo-classes */
-  .user-keywords-container {
-    overflow: auto;
+  .user-keywords-container .keywords-wrapper {
+    padding: 6px 18px;
   }
   .user-keywords-container button:not([class*=move-to]):active {
     background-color: var(--discernitive-color-4);
@@ -882,11 +899,14 @@ main article h2 {
     padding: 0px 10px;
   }
 }
-@media screen and (max-height: 449.5px) {
+@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 650px) {
   main {
     padding-left: 8px;
     padding-right: 8px;
     row-gap: 6px;
+  }
+  main a {
+    padding: 4px;
   }
   main article {
     display: grid;
@@ -903,6 +923,11 @@ main article h2 {
     max-width: 35px;
     min-height: 35px;
     order: 2;
+  }
+}
+@media screen and (max-width: 310px) {
+  .mobile-safe-area {
+    padding: 0px 8px;
   }
 }
 @media (pointer: fine) {
