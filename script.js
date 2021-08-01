@@ -1,9 +1,7 @@
 const pageHeaderEL = document.querySelector('.main-page-header')
 
-const buttonsThatWillHaveARippleEffect = 
-    document.querySelectorAll('.main-page-header button, .alternative-header-for-menu > button, .move-to-right, .move-to-left, .mobile-safe-area button')
+let buttonsThatWillHaveARippleEffect = null
 
-const searchBoxContainerEL = document.querySelector('.search-box-container')
 const searchBoxCloserEL = document.querySelector('.search-box-closer')
 const searchBoxExpanderEL = document.querySelector('.search-box-expander')
 
@@ -20,6 +18,9 @@ const [toggleRemoveElementsInsideUserRelatedSectionButtonEL, toggleRemoveElement
 const searchChannelsLiEL = document.querySelector('.seach-channels-li')
 const hamburguerMenuBluredAreaEL = document.querySelector('.stretched-blured-area')
 
+let lastKnownScrolledAmount = null
+
+const userKeywordsContainerWrapperEL = document.querySelector('.user-keywords-container-wrapper')
 const userKeywordsSectionEL = document.querySelector('.user-keywords-container')
 const keywordsWrapperEL = document.querySelector('.keywords-wrapper')
 const moveButtonsToLeftWrapperEL = document.querySelector('.move-to-left-wrapper')
@@ -135,10 +136,19 @@ function removeRipple() {
 
 function toggleExpandSearchBox() {
     const elementsToBeRemoved = [...document.querySelectorAll('.main-page-header > :not(.search-box-container)')]
+    const searchBoxContainerELs = document.querySelectorAll('.search-box-container')
 
     elementsToBeRemoved.forEach(element => element.classList.toggle('display-none'))
 
-    searchBoxContainerEL.classList.toggle('expand-search-box')
+    searchBoxContainerELs.forEach(searchBoxContainerEL => searchBoxContainerEL.classList.toggle('expand-search-box'))
+}
+
+
+function toggleExpandHamburguerMenu() {
+    sidebarEL.classList.toggle('expanded-hamburguer-menu')
+
+    changeGridTemplateColumnsProperty()
+    defineThumbnailsHeight()
 }
 
 
@@ -193,13 +203,7 @@ function changeGridTemplateColumnsProperty() {
     }
 }
 
-
-function toggleExpandHamburguerMenu() {
-    sidebarEL.classList.toggle('expanded-hamburguer-menu')
-
-    changeGridTemplateColumnsProperty()
-    defineThumbnailsHeight()
-}
+changeGridTemplateColumnsProperty()
 
 
 function handleKeydownEventOnWindow(event) {
@@ -207,9 +211,34 @@ function handleKeydownEventOnWindow(event) {
     const ArrowLeftWasPressed = 'ArrowLeft'.includes(event.key)
     const ArrowRightWasPressed = 'ArrowRight'.includes(event.key)
 
-    if(EscapeKeyWasPressed) toggleExpandHamburguerMenu()
-    else if(ArrowLeftWasPressed) moveWrapperToLeft()
+    if (EscapeKeyWasPressed) toggleExpandHamburguerMenu()
+    else if (ArrowLeftWasPressed) moveWrapperToLeft()
     else if (ArrowRightWasPressed) moveWrapperToRight()
+}
+
+
+function createCloneOfMainPageHeader() {
+    userKeywordsContainerWrapperEL.insertBefore(pageHeaderEL.cloneNode(true), userKeywordsSectionEL)
+
+    buttonsThatWillHaveARippleEffect = 
+        document.querySelectorAll('.main-page-header button, .alternative-header-for-menu > button, .move-to-right, .move-to-left, .mobile-safe-area button')
+}
+
+createCloneOfMainPageHeader()
+
+
+function toggleShowCloneOfMainPageHeader() {
+    const clonnedNodeMustBeDisplayed = getComputedStyle(mobileSafeAreaEL).display !== 'none'
+    const clonnedHeaderNode = userKeywordsContainerWrapperEL.children[0]
+
+    if (clonnedNodeMustBeDisplayed) {
+        clonnedHeaderNode.classList.remove('display-none')
+        pageHeaderEL.classList.add('display-none')
+    }
+    else {
+        clonnedHeaderNode.classList.add('display-none')
+        pageHeaderEL.classList.remove('display-none')
+    }
 }
 
 
@@ -225,7 +254,7 @@ function hideArrows() {
         moveButtonsToLeftWrapperEL.classList.remove('hide-element')
     }
 
-    if (slidedPathIsGreaterOrEqualToMaxVisibleWidth && maxVisibleWidth || keywordsWrapperIsSmallerThanItsContainer) {
+    if (slidedPathIsGreaterOrEqualToMaxVisibleWidth || keywordsWrapperIsSmallerThanItsContainer) {
         moveButtonsToRightWrapperEL.classList.add('hide-element')
     }
     else {
@@ -295,34 +324,38 @@ function defineThumbnailsHeight() {
 }
 
 
-function callbackFunctionForLoadedDocument() {
-    changeGridTemplateColumnsProperty()
+function callbackFunctionForContentLoaded() {
     defineThumbnailsHeight()
-    hideArrows()
-}
 
-setTimeout(() => document.body.classList.remove('page-skeleton'), 3000)
+    setTimeout(() => {
+        document.body.classList.remove('page-skeleton')
+        toggleShowCloneOfMainPageHeader()
+        hideArrows()
+    }, 3000)
+}
 
 
 function callbackFunctionForResizing() {
     changeGridTemplateColumnsProperty()
+    toggleShowCloneOfMainPageHeader()
     defineThumbnailsHeight()
 }
 
 
 function handleScrollEventOnWindow() {
     const totalScrolledAmount = window.pageYOffset
+    const theWrapperMustNotBeMoved = getComputedStyle(mobileSafeAreaEL).display === 'none'
 
-    if (getComputedStyle(mobileSafeAreaEL).display === 'none') return
+    if (theWrapperMustNotBeMoved) return
 
     if (totalScrolledAmount > 80) {
-        pageHeaderEL.classList.add('transform-51-pixels')
-        userKeywordsSectionEL.classList.add('transform-102-pixels')
+        lastKnownScrolledAmount < totalScrolledAmount ?
+        userKeywordsContainerWrapperEL.classList.add('transform-102-pixels') :
+        userKeywordsContainerWrapperEL.classList.remove('transform-102-pixels')
     }
-    else {
-        pageHeaderEL.classList.remove('transform-51-pixels')
-        userKeywordsSectionEL.classList.remove('transform-102-pixels')
-    }
+    else userKeywordsContainerWrapperEL.classList.remove('transform-102-pixels')
+
+    lastKnownScrolledAmount = totalScrolledAmount
 }
 
 
@@ -334,11 +367,6 @@ buttonsThatWillHaveARippleEffect.forEach(buttonEL => {
     buttonEL.addEventListener('mouseup', removeRipple)
     buttonEL.addEventListener('touchend', removeRipple)
 })
-
-
-searchBoxCloserEL.addEventListener('click', toggleExpandSearchBox)
-
-searchBoxExpanderEL.addEventListener('click', toggleExpandSearchBox)
 
 
 alternativeMenuCloserEL.addEventListener('click', toggleExpandHamburguerMenu)
@@ -366,7 +394,7 @@ keywordsButtonsELs.forEach(buttonEL =>
     buttonEL.addEventListener('click', () => highlightButton(buttonEL)))
 
 
-window.addEventListener('DOMContentLoaded', callbackFunctionForLoadedDocument)
+window.addEventListener('DOMContentLoaded', callbackFunctionForContentLoaded)
 
 window.addEventListener('resize', callbackFunctionForResizing)
 
