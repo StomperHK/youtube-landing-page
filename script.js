@@ -288,12 +288,6 @@ function moveWrapperToRight() {
 }
 
 
-function returnAspectedHeight(thumbnail) {
-    const parentElementWidth = thumbnail.clientWidth
-    return parentElementWidth / (16/9)
-}
-
-
 function handleWheelEventOnKeywordsSection(event) {
     event.preventDefault()
     if (event.deltaY < 0) moveWrapperToLeft()
@@ -301,7 +295,7 @@ function handleWheelEventOnKeywordsSection(event) {
 }
 
 
-function highlightButton(clickedButton) {
+function highlightKeywordsSrctionButton(clickedButton) {
     const theButtonHasTheClass = clickedButton.classList.contains('highlight-button')
 
     keywordsButtonsELs.forEach(buttonEL => buttonEL.classList.remove('highlight-button'))
@@ -315,6 +309,12 @@ function highlightButton(clickedButton) {
 }
 
 
+function returnAspectedHeight(thumbnail) {
+    const parentElementWidth = thumbnail.clientWidth
+    return parentElementWidth / (16/9)
+}
+
+
 function defineThumbnailsHeight() {
     const aspectedHeight = returnAspectedHeight(videosThumbnailsELs[0])
 
@@ -323,10 +323,10 @@ function defineThumbnailsHeight() {
     })
 }
 
+defineThumbnailsHeight()
+
 
 function callbackFunctionForContentLoaded() {
-    defineThumbnailsHeight()
-
     setTimeout(() => {
         document.body.classList.remove('page-skeleton')
         toggleShowCloneOfMainPageHeader()
@@ -348,7 +348,7 @@ function handleScrollEventOnWindow() {
 
     if (theWrapperMustNotBeMoved) return
 
-    if (totalScrolledAmount > 80) {
+    if (totalScrolledAmount > 90) {
         lastKnownScrolledAmount < totalScrolledAmount ?
         userKeywordsContainerWrapperEL.classList.add('transform-102-pixels') :
         userKeywordsContainerWrapperEL.classList.remove('transform-102-pixels')
@@ -391,7 +391,7 @@ moveButtonsToLeftEL.addEventListener('click', moveWrapperToLeft)
 moveButtonsToRightEL.addEventListener('click', moveWrapperToRight)
 
 keywordsButtonsELs.forEach(buttonEL => 
-    buttonEL.addEventListener('click', () => highlightButton(buttonEL)))
+    buttonEL.addEventListener('click', () => highlightKeywordsSrctionButton(buttonEL)))
 
 
 window.addEventListener('DOMContentLoaded', callbackFunctionForContentLoaded)
