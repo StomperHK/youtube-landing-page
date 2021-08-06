@@ -27,7 +27,7 @@
 
     --tooltip-color: rgba(94, 94, 94, 0.90);
 
-    --highlighted-button-color: rgba(255, 255, 255, 0.1);
+    --highlighted-button-color: rgba(244, 237, 255, 0.11);
 
     --highlighted-video-color:  rgba(255, 255, 255, 0.07);
     --highlighted-section-button: rgba(54, 53, 53, 0.5);
@@ -75,7 +75,7 @@ button {
 .move-to-right::before, .move-to-left::before,
 .mobile-safe-area button::before {
     content: '';
-    border: 0.8px solid transparent;
+    border: 0.7px solid transparent;
     width: calc(100% + 9px);
     height: calc(100% + 9px);
 
@@ -571,7 +571,7 @@ main {
 }
 
 .dissipate-ripple.dissipate-ripple::before {
-    border-color: rgba(255, 255, 255, 0.57);
+    border-color: rgba(244, 237, 255, 0.57);
     opacity: 0;
 }
 
@@ -733,7 +733,7 @@ main {
     }
 }
 
-@media screen and (max-width: 791.5px) {    // Breakpoint to compact the hamburguer menu on smallers screens
+@media screen and (max-width: 791.5px), screen and (max-height: 430px) {    // Breakpoint to compact the hamburguer menu on smallers screens
     .grid-content-wrapper {
         display: block;
     }
@@ -743,7 +743,7 @@ main {
         bottom: 0px;
         transform: translateX(-100%);
 
-        transition: transform 0.1s linear;
+        transition: transform 150ms linear;
 
         top: 0px;
 
@@ -890,7 +890,7 @@ main {
     }
 }
 
-@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) {   // Breakpoint to addapt contents on smallers screens
+@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) and (max-width: 700px) {   // Breakpoint to addapt contents on smallers screens
     .main-page-header {
         min-height: 51px;
         padding: 8px 14px;
@@ -1046,7 +1046,7 @@ main {
     }
 }
 
-@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 800px)  {   // Breakpoint to compact the video cards
+@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 700px)  {   // Breakpoint to compact the video cards
     main {
         padding-left: 8px;
         padding-right: 8px;
@@ -1083,7 +1083,6 @@ main {
         padding: 0px 8px;
     }
 }
-    
 
 @media (pointer: fine) {    // Breakpoint to add dinamics pseudo-classes for devices with mouse
     /* Dinamics pseudo-classes */
