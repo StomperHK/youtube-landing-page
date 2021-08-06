@@ -21,7 +21,7 @@
   --hover-color: rgba(255, 255, 255, 0.1);
   --page-skeleton-color: rgb(46, 42, 42);
   --tooltip-color: rgba(94, 94, 94, 0.90);
-  --highlighted-button-color: rgba(255, 255, 255, 0.1);
+  --highlighted-button-color: rgba(244, 237, 255, 0.11);
   --highlighted-video-color: rgba(255, 255, 255, 0.07);
   --highlighted-section-button: rgba(54, 53, 53, 0.5);
   --linear-gradient-to-left: linear-gradient(270deg, transparent, var(--secondary-background-color) 20%);
@@ -65,7 +65,7 @@ button {
 .move-to-right::before, .move-to-left::before,
 .mobile-safe-area button::before {
   content: "";
-  border: 0.8px solid transparent;
+  border: 0.7px solid transparent;
   width: calc(100% + 9px);
   height: calc(100% + 9px);
   position: absolute;
@@ -457,7 +457,7 @@ main article h2 {
 }
 
 .dissipate-ripple.dissipate-ripple::before {
-  border-color: rgba(255, 255, 255, 0.57);
+  border-color: rgba(244, 237, 255, 0.57);
   opacity: 0;
 }
 
@@ -586,7 +586,7 @@ main article h2 {
     color: var(--tertiary-content-color);
   }
 }
-@media screen and (max-width: 791.5px) {
+@media screen and (max-width: 791.5px), screen and (max-height: 430px) {
   .grid-content-wrapper {
     display: block;
   }
@@ -595,7 +595,7 @@ main article h2 {
     z-index: 3;
     bottom: 0px;
     transform: translateX(-100%);
-    transition: transform 0.1s linear;
+    transition: transform 150ms linear;
     top: 0px;
     width: 250px;
   }
@@ -775,7 +775,7 @@ main article h2 {
     background-color: var(--highlighted-video-color);
   }
 }
-@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) {
+@media screen and (max-width: 449.5px), screen and (max-height: 449.5px) and (max-width: 700px) {
   .main-page-header {
     min-height: 51px;
     padding: 8px 14px;
@@ -899,7 +899,7 @@ main article h2 {
     padding: 0px 10px;
   }
 }
-@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 800px) {
+@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 700px) {
   main {
     padding-left: 8px;
     padding-right: 8px;
