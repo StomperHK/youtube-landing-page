@@ -17,11 +17,13 @@
 
     --representative-content-color: rgb(52, 52, 53);
     
-    --discernitive-color-1: rgb(20, 20, 20);
-    --discernitive-color-2: rgb(60, 60, 60);
-    --discernitive-color-3: var(--highlighted-button-color);
-    --discernitive-color-4: rgba(255, 255, 255, 0.25);
+    --generic-color-1: rgb(19, 18, 18);
+    --generic-color-2: rgb(60, 60, 60);
+    --generic-color-3: var(--highlighted-button-color);
+    --generic-color-4: rgba(255, 255, 255, 0.25);
+
     --hover-color: rgba(255, 255, 255, 0.1);
+    --trending-genres-hover-color: rgb(14, 14, 14);
 
     --page-skeleton-color: rgb(46, 42, 42);
 
@@ -204,14 +206,14 @@ button {
 
         input {
             min-width: 0px;
-            border: 2px solid var(--discernitive-color-2);
+            border: 2px solid var(--generic-color-2);
             border-right: none;
             padding: 0px 6px;
 
             font-size: 16px;
             color: var(--content-color);
 
-            background-color: var(--discernitive-color-1);
+            background-color: var(--generic-color-1);
             outline: none;
 
             &:focus {
@@ -227,9 +229,9 @@ button {
         }
 
         button {
-            border: 2px solid var(--discernitive-color-2);
+            border: 2px solid var(--generic-color-2);
             color: var(--tertiary-content-color);
-            background-color: var(--discernitive-color-2);
+            background-color: var(--generic-color-2);
             outline: none;
 
             &:hover {
@@ -238,7 +240,6 @@ button {
 
             &:focus {
                 border-color: rgb(79, 79, 138);
-                color: var(--submit-button-hover-color);
             }
         }
 
@@ -310,29 +311,12 @@ button {
         }
     }
 
-    li {
-        list-style: none;
-    }
-
     button {
         width: 100%;
         background-color: transparent;
         outline: none;
 
         &:hover, &:focus {
-            background-color: var(--hover-color);
-        }
-    }
-
-    & nav > ul:first-child > li:first-child button {
-        background-color: var(--highlighted-section-button);
-
-        p, svg {
-            color: var(--content-color);
-            fill: var(--content-color);
-        }
-
-        &:hover {
             background-color: var(--hover-color);
         }
     }
@@ -362,7 +346,7 @@ button {
     background-color: var(--secondary-background-color);
 
     button:not([class*="move-to"]) {
-        border: 1px solid var(--discernitive-color-3);
+        border: 1px solid var(--generic-color-3);
         padding: 6px 12px;
 
         white-space: nowrap;
@@ -387,7 +371,7 @@ button {
         display: flex;
         padding: 8px 20px;
 
-        transition: transform 200ms linear;
+        transition: transform 150ms linear;
     }
 
     .move-to-right-wrapper, .move-to-left-wrapper {
@@ -454,18 +438,26 @@ button {
 }
 
 main {
+    padding-top: 130.8px;
+    padding-bottom: 24px;
+}
+
+.start-section {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     column-gap: 16px;
     row-gap: 36px;
 
-    padding: 24px;
-    padding-top: 130.8px;
+    padding: 0px 24px;
 
     a {
+        display: block;
         padding: 4px;
-        border-radius: 4px;
+
         outline: none;
+
+        border-radius: 4px;
+
         transition: background-color 100ms ease;
     }
 
@@ -509,6 +501,114 @@ main {
     }
 }
 
+.explore-section {
+    padding: 0px 6.5vw;
+
+    nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 4px;
+
+        margin: 0px auto;
+
+        a {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+
+            padding: 0px 16px;
+            height: 116px;
+
+            outline: none;
+
+            background-color: rgb(34, 34, 32);
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+
+        p {
+            color: var(--content-color);
+            font-weight: 600;
+        }
+    }
+
+    h1 {
+        margin: 30px 0px 15px 0px;
+
+        color: var(--content-color);
+        font-weight: 600;
+        font-size: 17px;
+    }
+
+    & > a {
+        display: block;
+        padding: 4px;
+
+        outline: none;
+
+        border-radius: 4px;
+
+        transition: background-color 100ms ease;
+    }
+
+    & > a:not(:last-child) {
+        margin-bottom: 10px;
+    }
+
+    article {
+        display: grid;
+        grid-template-columns: 30% 1fr;
+        column-gap: 10px;
+
+        .image {
+            margin: 0px;
+            background-color: var(--representative-content-color);
+        }
+
+        header {
+            display: flex;
+            gap: 8px;
+            flex-direction: column;
+
+            span {
+                display: block;
+                max-width: 35px;
+                min-height: 35px;
+                order: 2;
+    
+                border-radius: 50%;
+    
+                background-color: var(--representative-content-color);
+            }
+        }
+
+        h2, p {
+            height: 20px;
+            background-color: var(--representative-content-color);
+        }
+
+        p {
+            width: 70%;
+        }
+
+        h2 {
+            margin-bottom: 5px;
+        }
+    }
+}
 
 /* JavaScript classes */
 .page-skeleton {
@@ -553,7 +653,8 @@ main {
         padding-bottom: 10px;
 
         .image, span, h2, p {
-            animation: change-background-color 600ms ease infinite alternate;
+            background-color: rgba(46, 42, 42, 0.7);
+            animation: change-background-color 500ms ease infinite alternate;
         }
     }
 }
@@ -573,6 +674,19 @@ main {
 .dissipate-ripple.dissipate-ripple::before {
     border-color: rgba(244, 237, 255, 0.57);
     opacity: 0;
+}
+
+.highlight-section-button.highlight-section-button.highlight-section-button {
+    background-color: var(--highlighted-section-button);
+
+    p, svg {
+        color: var(--content-color);
+        fill: var(--content-color);
+    }
+
+    &:hover {
+        background-color: var(--hover-color);
+    }
 }
 
 .display-none.display-none.display-none {
@@ -629,23 +743,23 @@ main {
         text-align: start;
     }
 
-    & nav > ul:nth-child(n), footer {
+    & nav > div:nth-child(n), footer {
         display: block;
     }
 
-    ul {
+    div {
         padding: 12px 0px;
     }
 
-    & nav > ul:first-child {
+    & nav > div:first-child {
         margin: 0px;
     }
 
-    ul + * {
+    & nav > div + * {
         border-top: 1px solid var(--hover-color);
     }
 
-    h2 {
+    div > p {
         margin: 0px 0px 6px 24px;
 
         text-transform: uppercase;
@@ -701,11 +815,11 @@ main {
     }
 
     .hamburguer-menu {
-        & nav > ul:nth-child(n+3), footer {
+        & nav > div:nth-child(n+3), footer {
             display: none;
         }
     
-        & nav > ul:first-child {
+        & nav > div:first-child {
             margin-top: 4px;
         }
     
@@ -741,11 +855,10 @@ main {
     .hamburguer-menu {
         z-index: 3;
         bottom: 0px;
+        top: 0px;
         transform: translateX(-100%);
 
         transition: transform 150ms linear;
-
-        top: 0px;
 
         .alternative-header-for-menu {
             display: flex;
@@ -782,7 +895,7 @@ main {
             }
         }
 
-        nav > ul:first-child {
+        nav > div:first-child {
             border-top: 1px solid var(--hover-color);
         }
 
@@ -864,8 +977,58 @@ main {
     }
 }
 
-@media screen and (min-width: 449.5px) {    /* Breakpoint to add dinamics pseudo-classes for bigger screens
-    /* Dinamics pseudo-classes */
+@media screen and (max-width: 666px) {      // Breakpoint to expand the video cards of explore section
+    .explore-section {
+        article {
+            display: block;
+
+            .image {
+                margin-bottom: 10px;
+            }
+
+            header {
+                display: flex;
+                flex-direction: row;
+
+                span {
+                    order: 0;
+                    min-width: 35px;
+                    height: 35px;
+                }
+
+                div {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 490px) {      // Breakpoint to compact trending genres elements
+    .explore-section {
+        nav {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 8px;
+            padding: 0px 10px;
+
+            a:nth-child(n) {
+                flex-direction: row;
+                justify-content: start;
+
+                padding: 12px;
+                height: auto;
+            }
+
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 449.5px) {    // Breakpoint to add dynamics pseudo-classes of state for bigger screens
+    /* Dynamics pseudo-classes of state */
 
     .main-page-header button, .user-keywords-container button {
         &:focus::before {
@@ -879,13 +1042,19 @@ main {
 
     .user-keywords-container button:not([class*="move-to"]) {
         &:focus, &:hover {
-            background-color: var(--discernitive-color-4);
+            background-color: var(--generic-color-4);
         }
     }
 
-    main {
+    main article {
         a:active, a:focus {
             background-color: var(--highlighted-video-color);
+        }
+    }
+
+    .explore-section nav {
+        a:hover, a:focus {
+            background-color: var(--trending-genres-hover-color);
         }
     }
 }
@@ -897,6 +1066,10 @@ main {
 
         & > div, & > nav {
             gap: 14px;
+        }
+
+        .region-name {
+            display: none;
         }
     }
 
@@ -941,7 +1114,7 @@ main {
             align-items: center;
         }
 
-        button {
+        &.mobile-safe-area.mobile-safe-area button {
             width: 52px;
             height: 52px;
 
@@ -951,16 +1124,16 @@ main {
             color: var(--tertiary-content-color);
 
             transition: box-shadow 100ms linear;
+
+            &:hover {
+                background-color: transparent;
+            }
         }
 
         button::before {
             width: calc(100% + 24px);
             height: calc(100% + 24px);
             transform: translate(-50%, -50%);
-        }
-
-        button:first-child {
-            color: var(--content-color);
         }
 
         svg {
@@ -997,16 +1170,19 @@ main {
     }
 
     main {
-        grid-template-columns: 1fr;
         padding-top: 106px;
-        padding-bottom: 55px;
+        padding-bottom: 58px;
 
         a {
             border-radius: 0px;
         }
     }
 
-    /* Dinamics pseudo-classes */
+    .start-section {
+        grid-template-columns: 1fr;
+    }
+
+    /* Dynamics pseudo-classes of state */
 
     .user-keywords-container {
         .keywords-wrapper {
@@ -1015,39 +1191,48 @@ main {
 
         button:not([class*="move-to"]) {
             &:active {
-                background-color: var(--discernitive-color-4);
+                background-color: var(--generic-color-4);
             }
         }
     }
 
     main {
-        a:active {
+        article > a:active {
             background-color: var(--highlighted-video-color);
         }
     }
+
+    .explore-section nav a {
+        transition: transform 100ms linear;
+
+        &:active {transform: scale(0.95)}
+    }
 }
 
-@media screen and (max-width: 449.5px) {    // Breakpoint to increase the size of the video cards
-    main {
+@media screen and (max-width: 449.5px) {    // Breakpoint to increase the size of the video cards for smaller screens
+    .start-section, .explore-section {    
         padding-left: 0px;
         padding-right: 0px;
         row-gap: 0px;
 
-        a {
+        & > a:nth-child(n) {
             padding: 0px;
+            margin: 0px;
             padding-bottom: 20px;
         }
 
-        article {
-            header {
-                padding: 0px 10px;
-            }
+        article header {
+            padding: 0px 10px;
         }
+    }
+
+    .explore-section h1 {
+        padding: 0px 16px;
     }
 }
 
-@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 700px)  {   // Breakpoint to compact the video cards
-    main {
+@media screen and (max-height: 449.5px) and (min-width: 400px) and (max-width: 700px)  {   // Breakpoint to compact video cards
+    .start-section {
         padding-left: 8px;
         padding-right: 8px;
         row-gap: 6px;
@@ -1084,8 +1269,8 @@ main {
     }
 }
 
-@media (pointer: fine) {    // Breakpoint to add dinamics pseudo-classes for devices with mouse
-    /* Dinamics pseudo-classes */
+@media (pointer: fine) {    // Breakpoint to add dynamics pseudo-classes for devices with mouse
+    /* Dynamics pseudo-classes */
 
     .main-page-header button, .user-keywords-container button {
         &:focus::before {
@@ -1099,18 +1284,24 @@ main {
 
     .user-keywords-container button:not([class*="move-to"]) {
         &:focus, &:hover {
-            background-color: var(--discernitive-color-4);
+            background-color: var(--generic-color-4);
         }
     }
 
     main {
-        a:active, a:focus {
+        article > a:active, article > a:focus {
             background-color: var(--highlighted-video-color);
+        }
+    }
+
+    .explore-section nav {
+        a:hover, a:focus {
+            background-color: var(--trending-genres-hover-color);
         }
     }
 }
 
-@media (pointer: coarse) {    // Breakpoint to change some elements apresentation to touch devices
+@media (pointer: coarse) {    // Breakpoint to change some elements apresentation for touch devices
     button, a {
         cursor: default;
     }
@@ -1119,21 +1310,27 @@ main {
         display: none;
     }
 
-    /* Dinamics pseudo-classes */
+    /* Dynamics pseudo-classes */
 
     .user-keywords-container {
         overflow: auto;
 
         button:not([class*="move-to"]) {
             &:active {
-                background-color: var(--discernitive-color-4);
+                background-color: var(--generic-color-4);
             }
         }
     }
 
     main {
-        a:active {
+        article > a:active {
             background-color: var(--highlighted-video-color);
         }
+    }
+
+    .explore-section nav a:active {
+        transition: transform 100ms linear;
+
+        &:active {transform: scale(0.95)}
     }
 }
