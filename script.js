@@ -9,13 +9,14 @@ const mobileSafeAreaEL = document.querySelector('.mobile-safe-area')
 
 const hamburguerButtonEL = document.querySelector('.hamburguer-button')
 const sidebarEL = document.querySelector('.hamburguer-menu')
+const buttonsThatCanToggleSectionsELs = [...document.querySelectorAll('.visible-button, .mobile-safe-area button')]
 
 const alternativeMenuCloserEL = document.querySelector('.alternative-menu-closer')
 const userRelatedSectionEL = document.querySelector('.user-related-section')
 const subscribedChannelsSectionEL = document.querySelector('.subscribed-channels-section')
-const [toggleRemoveElementsInsideUserRelatedSectionButtonEL, toggleRemoveElementsInsideSubscribedChannelsSectionButtonEL] 
+const [toggleHideMenuElementsInsideUserRelatedSectionButtonEL, toggleHideMenuElementsInsideSubscribedChannelsSectionButtonEL] 
     = [...document.querySelectorAll('.toggle-remove-button')]
-const searchChannelsLiEL = document.querySelector('.seach-channels-li')
+const searchChannelsEL = document.querySelector('.seach-channels')
 const hamburguerMenuBluredAreaEL = document.querySelector('.stretched-blured-area')
 
 let lastKnownScrolledAmount = null
@@ -29,7 +30,12 @@ const moveButtonsToLeftEL = document.querySelector('.move-to-left')
 const moveButtonsToRightEL = document.querySelector('.move-to-right')
 let slidedPath = 0
 
+const pageSectionsELs = document.querySelectorAll('main > article')
+
 const videosThumbnailsELs = [...document.querySelectorAll('.image')]
+
+let currentPageSectionClassName = '.start-section'
+let lastMainPaddingTopComputedValue = ''
 
 const userData = {
     playlists:
@@ -54,49 +60,49 @@ const userData = {
 }
 
 
-function fillPlaylistData(playlists) {
+function fillPlaylistsData(playlists) {
     const playlistSVG = '<svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"><g><path d="M3.67 8.67h14V11h-14V8.67zm0-4.67h14v2.33h-14V4zm0 9.33H13v2.34H3.67v-2.34zm11.66 0v7l5.84-3.5-5.84-3.5z"></path></g></svg>'
     
     playlists.forEach(string => {
-        const liEL = document.createElement('li')
-        liEL.innerHTML = 
-            `<button>
+        const buttonEL = document.createElement('button')
+        buttonEL.innerHTML = 
+            `
                 ${playlistSVG}
                 <p>${string}</p>
-            </button>`
+            `
 
-        userRelatedSectionEL.insertBefore(liEL, toggleRemoveElementsInsideUserRelatedSectionButtonEL.parentElement)
+        userRelatedSectionEL.insertBefore(buttonEL, toggleHideMenuElementsInsideUserRelatedSectionButtonEL)
     })
 }
 
-fillPlaylistData(userData.playlists)
+fillPlaylistsData(userData.playlists)
 
 
 function fillSubscribedChannelsData(subscribedChannels) {
     subscribedChannels.forEach(innerArray => {
-        const liEL = document.createElement('li')
+        const liEL = document.createElement('button')
         liEL.innerHTML =
-            `<button>
+            `
                 <div></div>
                 <p ${innerArray[1] ? ' class="addapt-element-for-symbol"' : ''}>${innerArray[0]}</p>
                 ${innerArray[1] ? '<span class="unseen-content-symbol"></span>' : ''}
-            </button>`
+            `
 
-        subscribedChannelsSectionEL.insertBefore(liEL, searchChannelsLiEL)
+        subscribedChannelsSectionEL.insertBefore(liEL, searchChannelsEL)
     })
 
     if ([...subscribedChannelsSectionEL.children].length < 11) {
-        toggleRemoveElementsInsideSubscribedChannelsSectionButtonEL.classList.add('display-none')
+        toggleHideMenuElementsInsideSubscribedChannelsSectionButtonEL.classList.add('display-none')
         return
     }
-    toggleRemoveElements(subscribedChannelsSectionEL, 8, "maxAmount-1", toggleRemoveElementsInsideSubscribedChannelsSectionButtonEL, true)
+    toggleHideMenuElements(subscribedChannelsSectionEL, 8, "maxAmount-1", toggleHideMenuElementsInsideSubscribedChannelsSectionButtonEL, true)
 }
 
-fillSubscribedChannelsData(userData["subscribedChannels"])
+fillSubscribedChannelsData(userData.subscribedChannels)
 
 
 function fillKeywordsButtons() {
-    userData.keywords.forEach((keyword, index) => {
+    userData.keywords.forEach(keyword => {
      keywordsWrapperEL.innerHTML += `<button>${keyword}</button>`
     })
 }
@@ -148,11 +154,73 @@ function toggleExpandHamburguerMenu() {
     sidebarEL.classList.toggle('expanded-hamburguer-menu')
 
     changeGridTemplateColumnsProperty()
-    defineThumbnailsHeight()
+    defineThumbnailsHeight(true, [...document.querySelectorAll(`${currentPageSectionClassName} .image`)])
 }
 
 
-function toggleRemoveElements(fatherElement, limitationStart, limitationEnd, clickedButton, showExcedentsAmount) {
+function getUserKeywordsSectionHeight() {
+    userKeywordsSectionEL.classList.remove('display-none')
+    const userKeywordsContainerHeight = userKeywordsSectionEL.offsetHeight
+    userKeywordsSectionEL.classList.add('display-none')
+    return userKeywordsContainerHeight
+}
+
+
+function adjustMainElementPaddingTop(sectionClassName, userKeywordsContainerHeight=0) {
+    const mainEL = document.querySelector('main')
+    mainEL.style.paddingTop = ''
+
+    if (sectionClassName.indexOf('start-section') === -1) {
+        const mainElementPaddingTop = getComputedStyle(mainEL)['padding-top']
+        const parsedPaddingTop = parseFloat(mainElementPaddingTop.slice(0, mainElementPaddingTop.length - 2), 10)
+
+        mainEL.style.paddingTop = parsedPaddingTop - (userKeywordsContainerHeight || getUserKeywordsSectionHeight()) + 'px'
+    }
+}
+
+
+function toggleUserKeywordsSection(sectionClassName) {
+    const userKeywordsSectionIsHidden = userKeywordsSectionEL.classList.contains('display-none')
+
+    if (sectionClassName === 'start-section' && userKeywordsSectionIsHidden) {
+        userKeywordsSectionEL.classList.remove('display-none')
+
+        adjustMainElementPaddingTop(sectionClassName)
+    }
+    else if (sectionClassName !== 'start-section' && !userKeywordsSectionIsHidden) {
+        const userKeywordsContainerHeight = userKeywordsSectionEL.offsetHeight
+        userKeywordsSectionEL.classList.add('display-none')
+
+        adjustMainElementPaddingTop(sectionClassName, userKeywordsContainerHeight)
+    }
+}
+
+
+function showDesiredSection(sectionClassName) {
+    const desiredSectionEL = document.querySelector(`.${sectionClassName}`)
+
+    if (!desiredSectionEL) return
+
+    currentPageSectionClassName = `.${sectionClassName}`
+
+    pageSectionsELs.forEach(pageSectionsEL => pageSectionsEL.classList.add('display-none'))
+
+    buttonsThatCanToggleSectionsELs.forEach((buttonEL) => {
+        if (buttonEL.dataset.attachedSectionJs === sectionClassName) {
+            buttonEL.classList.add('highlight-section-button')
+            return
+        }
+
+        buttonEL.classList.remove('highlight-section-button')
+    })
+
+    desiredSectionEL.classList.remove('display-none')
+    defineThumbnailsHeight(false, document.querySelectorAll(`.${sectionClassName} .image`))
+    toggleUserKeywordsSection(sectionClassName)
+}
+
+
+function toggleHideMenuElements(fatherElement, limitationStart, limitationEnd, clickedButton, showExcedentsAmount) {
     const childrenELs = [...fatherElement.children]
 
     const clickedButtonChildren = clickedButton.children
@@ -187,7 +255,7 @@ function toggleRemoveElements(fatherElement, limitationStart, limitationEnd, cli
     })
 }
 
-toggleRemoveElements(userRelatedSectionEL, 5, "maxAmount-1", toggleRemoveElementsInsideUserRelatedSectionButtonEL, false)
+toggleHideMenuElements(userRelatedSectionEL, 5, "maxAmount-1", toggleHideMenuElementsInsideUserRelatedSectionButtonEL, false)
 
 
 function changeGridTemplateColumnsProperty() {
@@ -234,10 +302,14 @@ function toggleShowCloneOfMainPageHeader() {
     if (clonnedNodeMustBeDisplayed) {
         clonnedHeaderNode.classList.remove('display-none')
         pageHeaderEL.classList.add('display-none')
+
+        window.addEventListener('scroll', handleScrollEventOnWindow)
     }
     else {
         clonnedHeaderNode.classList.add('display-none')
         pageHeaderEL.classList.remove('display-none')
+
+        window.removeEventListener('scroll', handleScrollEventOnWindow)
     }
 }
 
@@ -295,7 +367,7 @@ function handleWheelEventOnKeywordsSection(event) {
 }
 
 
-function highlightKeywordsSrctionButton(clickedButton) {
+function highlightKeywordsSectionButton(clickedButton) {
     const theButtonHasTheClass = clickedButton.classList.contains('highlight-button')
 
     keywordsButtonsELs.forEach(buttonEL => buttonEL.classList.remove('highlight-button'))
@@ -310,20 +382,26 @@ function highlightKeywordsSrctionButton(clickedButton) {
 
 
 function returnAspectedHeight(thumbnail) {
-    const parentElementWidth = thumbnail.clientWidth
-    return parentElementWidth / (16/9)
+    const thumbnailWidth = thumbnail.clientWidth
+    return thumbnailWidth / (16/9)
 }
 
 
-function defineThumbnailsHeight() {
-    const aspectedHeight = returnAspectedHeight(videosThumbnailsELs[0])
+function defineThumbnailsHeight(analiseIfVideoCardsWillNeedToGetResized, thumbnails) {
+    if (analiseIfVideoCardsWillNeedToGetResized) {
+        const videoCardsWillNeedToBeResised = getComputedStyle(sidebarEL.parentElement).display === 'grid'
 
-    videosThumbnailsELs.forEach(thumbnail => {
+        if (!videoCardsWillNeedToBeResised) return
+    }
+
+    const aspectedHeight = returnAspectedHeight(thumbnails[0])
+
+    thumbnails.forEach(thumbnail => {
         thumbnail.style.height = aspectedHeight + 'px'
     })
 }
 
-defineThumbnailsHeight()
+defineThumbnailsHeight(false, videosThumbnailsELs)
 
 
 function callbackFunctionForContentLoaded() {
@@ -338,17 +416,19 @@ function callbackFunctionForContentLoaded() {
 function callbackFunctionForResizing() {
     changeGridTemplateColumnsProperty()
     toggleShowCloneOfMainPageHeader()
-    defineThumbnailsHeight()
+    defineThumbnailsHeight(false, [...document.querySelectorAll(`${currentPageSectionClassName} .image`)])
+    adjustMainElementPaddingTop(currentPageSectionClassName)
 }
 
 
 function handleScrollEventOnWindow() {
     const totalScrolledAmount = window.pageYOffset
     const theWrapperMustNotBeMoved = getComputedStyle(mobileSafeAreaEL).display === 'none'
+    const minimumQuantityOfPixels = currentPageSectionClassName === '.start-section' ? 90 : 40
 
     if (theWrapperMustNotBeMoved) return
 
-    if (totalScrolledAmount > 90) {
+    if (totalScrolledAmount > minimumQuantityOfPixels) {
         lastKnownScrolledAmount < totalScrolledAmount ?
         userKeywordsContainerWrapperEL.classList.add('transform-102-pixels') :
         userKeywordsContainerWrapperEL.classList.remove('transform-102-pixels')
@@ -373,11 +453,14 @@ alternativeMenuCloserEL.addEventListener('click', toggleExpandHamburguerMenu)
 
 hamburguerButtonEL.addEventListener('click', toggleExpandHamburguerMenu)
 
-toggleRemoveElementsInsideUserRelatedSectionButtonEL
-    .addEventListener('click', function() {toggleRemoveElements(userRelatedSectionEL, 5, "maxAmount-1", this, false)})
+buttonsThatCanToggleSectionsELs.forEach((buttonEL, index) => 
+    buttonEL.addEventListener('click', () => showDesiredSection(buttonEL.dataset.attachedSectionJs)))
 
-toggleRemoveElementsInsideSubscribedChannelsSectionButtonEL
-    .addEventListener('click', function() {toggleRemoveElements(subscribedChannelsSectionEL, 8, "maxAmount-1", this, true)})
+toggleHideMenuElementsInsideUserRelatedSectionButtonEL
+    .addEventListener('click', function() {toggleHideMenuElements(userRelatedSectionEL, 5, "maxAmount-1", this, false)})
+
+toggleHideMenuElementsInsideSubscribedChannelsSectionButtonEL
+    .addEventListener('click', function() {toggleHideMenuElements(subscribedChannelsSectionEL, 8, "maxAmount-1", this, true)})
 
 hamburguerMenuBluredAreaEL.addEventListener('click', toggleExpandHamburguerMenu)
 
@@ -391,11 +474,9 @@ moveButtonsToLeftEL.addEventListener('click', moveWrapperToLeft)
 moveButtonsToRightEL.addEventListener('click', moveWrapperToRight)
 
 keywordsButtonsELs.forEach(buttonEL => 
-    buttonEL.addEventListener('click', () => highlightKeywordsSrctionButton(buttonEL)))
+    buttonEL.addEventListener('click', () => highlightKeywordsSectionButton(buttonEL)))
 
 
 window.addEventListener('DOMContentLoaded', callbackFunctionForContentLoaded)
 
 window.addEventListener('resize', callbackFunctionForResizing)
-
-window.addEventListener('scroll', handleScrollEventOnWindow)
