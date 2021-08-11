@@ -881,7 +881,7 @@ main {
   }
 }
 @media screen and (min-width: 449.5px) {
-  /* Dinamics pseudo-classes */
+  /* Dynamics pseudo-classes of state */
   .main-page-header button:focus::before, .user-keywords-container button:focus::before {
     background-color: var(--highlighted-button-color);
   }
@@ -994,7 +994,7 @@ main {
   }
 
   main {
-    padding-top: 106px;
+    padding-top: 114px;
     padding-bottom: 58px;
   }
   main a {
@@ -1005,7 +1005,7 @@ main {
     grid-template-columns: 1fr;
   }
 
-  /* Dinamics pseudo-classes */
+  /* Dynamics pseudo-classes of state */
   .user-keywords-container .keywords-wrapper {
     padding: 6px 18px;
   }
@@ -1075,7 +1075,7 @@ main {
   }
 }
 @media (pointer: fine) {
-  /* Dinamics pseudo-classes */
+  /* Dynamics pseudo-classes */
   .main-page-header button:focus::before, .user-keywords-container button:focus::before {
     background-color: var(--highlighted-button-color);
   }
@@ -1104,7 +1104,7 @@ main {
     display: none;
   }
 
-  /* Dinamics pseudo-classes */
+  /* Dynamics pseudo-classes */
   .user-keywords-container {
     overflow: auto;
   }
